@@ -1,58 +1,289 @@
-import studentsData from "@/services/mockData/students.json";
-
-let students = [...studentsData];
+import { toast } from 'react-toastify';
 
 const studentService = {
   async getAll() {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    return [...students];
+    try {
+      const tableName = 'student';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "firstName" } },
+          { field: { Name: "lastName" } },
+          { field: { Name: "email" } },
+          { field: { Name: "phone" } },
+          { field: { Name: "gradeLevel" } },
+          { field: { Name: "enrollmentDate" } },
+          { field: { Name: "photoUrl" } },
+          { field: { Name: "status" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ],
+        pagingInfo: {
+          limit: 100,
+          offset: 0
+        }
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.fetchRecords(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching students:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
   },
 
   async getById(id) {
-    await new Promise(resolve => setTimeout(resolve, 200));
-    const student = students.find(s => s.Id === parseInt(id));
-    if (!student) {
-      throw new Error("Student not found");
+    try {
+      const tableName = 'student';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "firstName" } },
+          { field: { Name: "lastName" } },
+          { field: { Name: "email" } },
+          { field: { Name: "phone" } },
+          { field: { Name: "gradeLevel" } },
+          { field: { Name: "enrollmentDate" } },
+          { field: { Name: "photoUrl" } },
+          { field: { Name: "status" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.getRecordById(tableName, id, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      return response.data;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching student with ID ${id}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
-    return { ...student };
   },
 
   async create(studentData) {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    const maxId = students.length > 0 ? Math.max(...students.map(s => s.Id)) : 0;
-    const newStudent = {
-      Id: maxId + 1,
-      ...studentData,
-      enrollmentDate: new Date(studentData.enrollmentDate).toISOString()
-    };
-    students.push(newStudent);
-    return { ...newStudent };
+    try {
+      const tableName = 'student';
+      
+      // Format data according to field types and only include Updateable fields
+      const formattedData = {
+        Name: studentData.Name || `${studentData.firstName} ${studentData.lastName}`,
+        Tags: studentData.Tags || "",
+        Owner: studentData.Owner ? parseInt(studentData.Owner) : null,
+        firstName: studentData.firstName,
+        lastName: studentData.lastName,
+        email: studentData.email,
+        phone: studentData.phone,
+        gradeLevel: studentData.gradeLevel,
+        enrollmentDate: studentData.enrollmentDate,
+        photoUrl: studentData.photoUrl || "",
+        status: studentData.status
+      };
+      
+      const params = {
+        records: [formattedData]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.createRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} student records:${JSON.stringify(failedRecords)}`);
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error creating student:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
+    }
   },
 
   async update(id, studentData) {
-    await new Promise(resolve => setTimeout(resolve, 400));
-    const index = students.findIndex(s => s.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Student not found");
+    try {
+      const tableName = 'student';
+      
+      // Format data according to field types and only include Updateable fields
+      const formattedData = {
+        Id: parseInt(id),
+        Name: studentData.Name || `${studentData.firstName} ${studentData.lastName}`,
+        Tags: studentData.Tags || "",
+        Owner: studentData.Owner ? parseInt(studentData.Owner) : null,
+        firstName: studentData.firstName,
+        lastName: studentData.lastName,
+        email: studentData.email,
+        phone: studentData.phone,
+        gradeLevel: studentData.gradeLevel,
+        enrollmentDate: studentData.enrollmentDate,
+        photoUrl: studentData.photoUrl || "",
+        status: studentData.status
+      };
+      
+      const params = {
+        records: [formattedData]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.updateRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} student records:${JSON.stringify(failedUpdates)}`);
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error updating student:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
-    const updatedStudent = {
-      ...students[index],
-      ...studentData,
-      Id: parseInt(id),
-      enrollmentDate: new Date(studentData.enrollmentDate).toISOString()
-    };
-    students[index] = updatedStudent;
-    return { ...updatedStudent };
   },
 
   async delete(id) {
-    await new Promise(resolve => setTimeout(resolve, 300));
-    const index = students.findIndex(s => s.Id === parseInt(id));
-    if (index === -1) {
-      throw new Error("Student not found");
+    try {
+      const tableName = 'student';
+      
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.deleteRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+      
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} student records:${JSON.stringify(failedDeletions)}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulDeletions.length > 0;
+      }
+      
+      return false;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error deleting student:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return false;
     }
-    students.splice(index, 1);
-    return true;
   }
 };
 

@@ -1,145 +1,565 @@
-import parentContactsData from "@/services/mockData/parentContacts.json";
-import communicationsData from "@/services/mockData/communications.json";
-
-let parentContacts = [...parentContactsData];
-let communications = [...communicationsData];
-let nextContactId = Math.max(...parentContacts.map(p => p.Id)) + 1;
-let nextCommunicationId = Math.max(...communications.map(c => c.Id)) + 1;
+import { toast } from 'react-toastify';
 
 const parentContactService = {
-  // Get all parent contacts
-  getAll: () => {
-    return Promise.resolve([...parentContacts]);
-  },
-
-  // Get parent contact by ID
-  getById: (id) => {
-    const contact = parentContacts.find(p => p.Id === parseInt(id));
-    return Promise.resolve(contact ? { ...contact } : null);
-  },
-
-  // Get parent contact by student ID
-  getByStudentId: (studentId) => {
-    const contact = parentContacts.find(p => p.studentId === parseInt(studentId));
-    return Promise.resolve(contact ? { ...contact } : null);
-  },
-
-  // Create new parent contact
-  create: (contactData) => {
-    const newContact = {
-      Id: nextContactId++,
-      parentName: contactData.parentName,
-      email: contactData.email,
-      phone: contactData.phone,
-      relationship: contactData.relationship,
-      studentId: parseInt(contactData.studentId),
-      createdDate: new Date().toISOString()
-    };
-
-    parentContacts.push(newContact);
-    return Promise.resolve({ ...newContact });
-  },
-
-  // Update parent contact
-  update: (id, contactData) => {
-    const index = parentContacts.findIndex(p => p.Id === parseInt(id));
-    if (index === -1) {
-      return Promise.reject(new Error("Parent contact not found"));
+  async getAll() {
+    try {
+      const tableName = 'parent_contact';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "parentName" } },
+          { field: { Name: "email" } },
+          { field: { Name: "phone" } },
+          { field: { Name: "relationship" } },
+          { field: { Name: "createdDate" } },
+          { field: { Name: "studentId" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ],
+        pagingInfo: {
+          limit: 100,
+          offset: 0
+        }
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.fetchRecords(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching parent contacts:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
     }
-
-    const updatedContact = {
-      ...parentContacts[index],
-      parentName: contactData.parentName,
-      email: contactData.email,
-      phone: contactData.phone,
-      relationship: contactData.relationship,
-      updatedDate: new Date().toISOString()
-    };
-
-    parentContacts[index] = updatedContact;
-    return Promise.resolve({ ...updatedContact });
   },
 
-  // Delete parent contact
-  delete: (id) => {
-    const index = parentContacts.findIndex(p => p.Id === parseInt(id));
-    if (index === -1) {
-      return Promise.reject(new Error("Parent contact not found"));
+  async getById(id) {
+    try {
+      const tableName = 'parent_contact';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "parentName" } },
+          { field: { Name: "email" } },
+          { field: { Name: "phone" } },
+          { field: { Name: "relationship" } },
+          { field: { Name: "createdDate" } },
+          { field: { Name: "studentId" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.getRecordById(tableName, id, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      return response.data;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching parent contact with ID ${id}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
-
-    parentContacts.splice(index, 1);
-    // Also delete associated communications
-    communications = communications.filter(c => c.parentContactId !== parseInt(id));
-    return Promise.resolve(true);
   },
 
-  // Get communications for a parent contact
-  getCommunications: (parentContactId) => {
-    const contactComms = communications
-      .filter(c => c.parentContactId === parseInt(parentContactId))
-      .sort((a, b) => new Date(b.date) - new Date(a.date));
-    return Promise.resolve([...contactComms]);
-  },
-
-  // Add new communication
-  addCommunication: (parentContactId, communicationData) => {
-    const newCommunication = {
-      Id: nextCommunicationId++,
-      parentContactId: parseInt(parentContactId),
-      type: communicationData.type,
-      message: communicationData.message,
-      direction: communicationData.direction,
-      date: new Date().toISOString()
-    };
-
-    communications.push(newCommunication);
-    return Promise.resolve({ ...newCommunication });
-  },
-
-  // Update communication
-  updateCommunication: (id, communicationData) => {
-    const index = communications.findIndex(c => c.Id === parseInt(id));
-    if (index === -1) {
-      return Promise.reject(new Error("Communication not found"));
+  async getByStudentId(studentId) {
+    try {
+      const tableName = 'parent_contact';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "parentName" } },
+          { field: { Name: "email" } },
+          { field: { Name: "phone" } },
+          { field: { Name: "relationship" } },
+          { field: { Name: "createdDate" } },
+          { field: { Name: "studentId" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ],
+        where: [
+          {
+            FieldName: "studentId",
+            Operator: "EqualTo",
+            Values: [parseInt(studentId)]
+          }
+        ]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.fetchRecords(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      return response.data && response.data.length > 0 ? response.data[0] : null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching parent contact for student ${studentId}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
-
-    const updatedCommunication = {
-      ...communications[index],
-      type: communicationData.type,
-      message: communicationData.message,
-      direction: communicationData.direction,
-      updatedDate: new Date().toISOString()
-    };
-
-    communications[index] = updatedCommunication;
-    return Promise.resolve({ ...updatedCommunication });
   },
 
-  // Delete communication
-  deleteCommunication: (id) => {
-    const index = communications.findIndex(c => c.Id === parseInt(id));
-    if (index === -1) {
-      return Promise.reject(new Error("Communication not found"));
+  async create(contactData) {
+    try {
+      const tableName = 'parent_contact';
+      
+      // Format data according to field types and only include Updateable fields
+      const formattedData = {
+        Name: contactData.Name || contactData.parentName,
+        Tags: contactData.Tags || "",
+        Owner: contactData.Owner ? parseInt(contactData.Owner) : null,
+        parentName: contactData.parentName,
+        email: contactData.email,
+        phone: contactData.phone,
+        relationship: contactData.relationship,
+        createdDate: contactData.createdDate || new Date().toISOString(),
+        studentId: contactData.studentId ? parseInt(contactData.studentId) : null
+      };
+      
+      const params = {
+        records: [formattedData]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.createRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} parent contact records:${JSON.stringify(failedRecords)}`);
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error creating parent contact:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
     }
-
-    communications.splice(index, 1);
-    return Promise.resolve(true);
   },
 
-  // Get all communications (for admin view)
-  getAllCommunications: () => {
-    const sortedComms = communications.sort((a, b) => new Date(b.date) - new Date(a.date));
-    return Promise.resolve([...sortedComms]);
+  async update(id, contactData) {
+    try {
+      const tableName = 'parent_contact';
+      
+      // Format data according to field types and only include Updateable fields
+      const formattedData = {
+        Id: parseInt(id),
+        Name: contactData.Name || contactData.parentName,
+        Tags: contactData.Tags || "",
+        Owner: contactData.Owner ? parseInt(contactData.Owner) : null,
+        parentName: contactData.parentName,
+        email: contactData.email,
+        phone: contactData.phone,
+        relationship: contactData.relationship,
+        createdDate: contactData.createdDate,
+        studentId: contactData.studentId ? parseInt(contactData.studentId) : null
+      };
+      
+      const params = {
+        records: [formattedData]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.updateRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulUpdates = response.results.filter(result => result.success);
+        const failedUpdates = response.results.filter(result => !result.success);
+        
+        if (failedUpdates.length > 0) {
+          console.error(`Failed to update ${failedUpdates.length} parent contact records:${JSON.stringify(failedUpdates)}`);
+          
+          failedUpdates.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulUpdates.length > 0 ? successfulUpdates[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error updating parent contact:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
+    }
   },
 
-  // Search communications
-  searchCommunications: (query) => {
-    const filtered = communications.filter(c =>
-      c.message.toLowerCase().includes(query.toLowerCase()) ||
-      c.type.toLowerCase().includes(query.toLowerCase())
-    ).sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    return Promise.resolve([...filtered]);
+  async delete(id) {
+    try {
+      const tableName = 'parent_contact';
+      
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.deleteRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+      
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} parent contact records:${JSON.stringify(failedDeletions)}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulDeletions.length > 0;
+      }
+      
+      return false;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error deleting parent contact:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return false;
+    }
+  },
+
+  // Communication methods
+  async getCommunications(parentContactId) {
+    try {
+      const tableName = 'communication';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "parentContactId" } },
+          { field: { Name: "type" } },
+          { field: { Name: "message" } },
+          { field: { Name: "direction" } },
+          { field: { Name: "date" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ],
+        where: [
+          {
+            FieldName: "parentContactId",
+            Operator: "EqualTo",
+            Values: [parseInt(parentContactId)]
+          }
+        ],
+        orderBy: [
+          {
+            fieldName: "date",
+            sorttype: "DESC"
+          }
+        ]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.fetchRecords(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error(`Error fetching communications for parent contact ${parentContactId}:`, error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
+  },
+
+  async addCommunication(parentContactId, communicationData) {
+    try {
+      const tableName = 'communication';
+      
+      // Format data according to field types and only include Updateable fields
+      const formattedData = {
+        Name: communicationData.Name || `Communication ${communicationData.type}`,
+        Tags: communicationData.Tags || "",
+        Owner: communicationData.Owner ? parseInt(communicationData.Owner) : null,
+        parentContactId: parseInt(parentContactId),
+        type: communicationData.type,
+        message: communicationData.message,
+        direction: communicationData.direction,
+        date: communicationData.date || new Date().toISOString()
+      };
+      
+      const params = {
+        records: [formattedData]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.createRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return null;
+      }
+      
+      if (response.results) {
+        const successfulRecords = response.results.filter(result => result.success);
+        const failedRecords = response.results.filter(result => !result.success);
+        
+        if (failedRecords.length > 0) {
+          console.error(`Failed to create ${failedRecords.length} communication records:${JSON.stringify(failedRecords)}`);
+          
+          failedRecords.forEach(record => {
+            record.errors?.forEach(error => {
+              toast.error(`${error.fieldLabel}: ${error.message}`);
+            });
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulRecords.length > 0 ? successfulRecords[0].data : null;
+      }
+      
+      return null;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error adding communication:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return null;
+    }
+  },
+
+  async getAllCommunications() {
+    try {
+      const tableName = 'communication';
+      
+      const params = {
+        fields: [
+          { field: { Name: "Id" } },
+          { field: { Name: "Name" } },
+          { field: { Name: "Tags" } },
+          { field: { Name: "Owner" } },
+          { field: { Name: "parentContactId" } },
+          { field: { Name: "type" } },
+          { field: { Name: "message" } },
+          { field: { Name: "direction" } },
+          { field: { Name: "date" } },
+          { field: { Name: "CreatedOn" } },
+          { field: { Name: "CreatedBy" } },
+          { field: { Name: "ModifiedOn" } },
+          { field: { Name: "ModifiedBy" } }
+        ],
+        orderBy: [
+          {
+            fieldName: "date",
+            sorttype: "DESC"
+          }
+        ],
+        pagingInfo: {
+          limit: 100,
+          offset: 0
+        }
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.fetchRecords(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return [];
+      }
+      
+      return response.data || [];
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error fetching all communications:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return [];
+    }
+  },
+
+  async deleteCommunication(id) {
+    try {
+      const tableName = 'communication';
+      
+      const params = {
+        RecordIds: [parseInt(id)]
+      };
+      
+      const { ApperClient } = window.ApperSDK;
+      const apperClient = new ApperClient({
+        apperProjectId: import.meta.env.VITE_APPER_PROJECT_ID,
+        apperPublicKey: import.meta.env.VITE_APPER_PUBLIC_KEY
+      });
+      
+      const response = await apperClient.deleteRecord(tableName, params);
+      
+      if (!response.success) {
+        console.error(response.message);
+        toast.error(response.message);
+        return false;
+      }
+      
+      if (response.results) {
+        const successfulDeletions = response.results.filter(result => result.success);
+        const failedDeletions = response.results.filter(result => !result.success);
+        
+        if (failedDeletions.length > 0) {
+          console.error(`Failed to delete ${failedDeletions.length} communication records:${JSON.stringify(failedDeletions)}`);
+          
+          failedDeletions.forEach(record => {
+            if (record.message) toast.error(record.message);
+          });
+        }
+        
+        return successfulDeletions.length > 0;
+      }
+      
+      return false;
+    } catch (error) {
+      if (error?.response?.data?.message) {
+        console.error("Error deleting communication:", error?.response?.data?.message);
+      } else {
+        console.error(error.message);
+      }
+      return false;
+    }
   }
 };
 
