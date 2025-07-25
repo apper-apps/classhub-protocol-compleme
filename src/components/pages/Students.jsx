@@ -81,6 +81,12 @@ const handleViewStudent = (student) => {
     toast.info(`Viewing ${student.firstName} ${student.lastName}'s profile`);
   };
 
+  const handleViewPerformance = (student) => {
+    // Navigate to student performance analytics
+    window.location.href = `/students/${student.Id}/performance`;
+    toast.info(`Loading performance analytics for ${student.firstName} ${student.lastName}`);
+  };
+
   const handleContactParent = (student) => {
     // Navigate to parent contact page with student ID
     window.location.href = `/parent-contact?studentId=${student.Id}`;
@@ -183,11 +189,12 @@ if (loading) {
           />
         )
       ) : (
-        <StudentTable
+<StudentTable
           students={filteredStudents}
           onEdit={handleEditStudent}
           onDelete={handleDeleteStudent}
           onView={handleViewStudent}
+          onViewPerformance={handleViewPerformance}
         />
       )}
     </div>

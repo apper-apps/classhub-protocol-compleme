@@ -4,11 +4,11 @@ import { ToastContainer } from 'react-toastify';
 import Layout from '@/components/pages/Layout';
 import Dashboard from '@/components/pages/Dashboard';
 import Students from '@/components/pages/Students';
+import StudentPerformance from '@/components/pages/StudentPerformance';
 import Grades from '@/components/pages/Grades';
 import Attendance from '@/components/pages/Attendance';
 import Assignments from '@/components/pages/Assignments';
 import ParentContact from '@/components/pages/ParentContact';
-
 function App() {
   return (
     <Router>
@@ -17,6 +17,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="students" element={<Students />} />
+            <Route path="students/:id/performance" element={<StudentPerformance />} />
             <Route path="grades" element={<Grades />} />
             <Route path="attendance" element={<Attendance />} />
             <Route path="assignments" element={<Assignments />} />
