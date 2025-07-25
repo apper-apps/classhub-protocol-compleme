@@ -232,12 +232,13 @@ const Assignments = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleFormSubmit} className="space-y-6">
-              <Input
+<Input
                 label="Assignment Title"
                 value={formData.title}
                 onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                 error={formErrors.title}
                 placeholder="Enter assignment title"
+                required
               />
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
