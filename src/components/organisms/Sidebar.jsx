@@ -17,8 +17,8 @@ const menuItems = [
       label: "Students", 
       icon: "Users" 
     },
-    { 
-      path: "/students", 
+{ 
+      path: "/people", 
       label: "People", 
       icon: "Users2" 
     },
