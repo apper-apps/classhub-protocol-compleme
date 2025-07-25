@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "parentContactId": 1,
+    "type": "email",
+    "message": "Emily has been doing excellent work in mathematics this week. She completed all assignments on time and showed great problem-solving skills.",
+    "direction": "sent",
+    "date": "2024-03-15T14:30:00Z"
+  },
+  {
+    "Id": 2,
+    "parentContactId": 1,
+    "type": "email",
+    "message": "Thank you for the update! We're so proud of Emily's progress. She's been practicing math at home every evening.",
+    "direction": "received",
+    "date": "2024-03-15T18:45:00Z"
+  },
+  {
+    "Id": 3,
+    "parentContactId": 2,
+    "type": "phone",
+    "message": "Called to discuss Alex's recent absence from school. Parent explained he had a minor illness but is feeling better now.",
+    "direction": "sent",
+    "date": "2024-03-14T10:15:00Z"
+  },
+  {
+    "Id": 4,
+    "parentContactId": 2,
+    "type": "email",
+    "message": "Alex will return to school tomorrow. He has completed all missed assignments and is ready to catch up.",
+    "direction": "received",
+    "date": "2024-03-14T16:20:00Z"
+  },
+  {
+    "Id": 5,
+    "parentContactId": 3,
+    "type": "meeting",
+    "message": "Parent-teacher conference to discuss Sophia's academic progress and social development. Discussed strategies for improving reading comprehension.",
+    "direction": "sent",
+    "date": "2024-03-13T15:00:00Z"
+  },
+  {
+    "Id": 6,
+    "parentContactId": 4,
+    "type": "email",
+    "message": "James showed exceptional leadership during today's group project. He helped other students and demonstrated great teamwork skills.",
+    "direction": "sent",
+    "date": "2024-03-12T13:45:00Z"
+  },
+  {
+    "Id": 7,
+    "parentContactId": 4,
+    "type": "text",
+    "message": "We're thrilled to hear about James's leadership! He talks about school projects at dinner every night.",
+    "direction": "received",
+    "date": "2024-03-12T19:30:00Z"
+  },
+  {
+    "Id": 8,
+    "parentContactId": 5,
+    "type": "phone",
+    "message": "Discussed Isabella's upcoming science fair project. Provided guidance on project requirements and timeline.",
+    "direction": "sent",
+    "date": "2024-03-11T11:30:00Z"
+  },
+  {
+    "Id": 9,
+    "parentContactId": 1,
+    "type": "email",
+    "message": "Reminder about Emily's field trip next Friday. Please ensure the permission slip is signed and returned by Wednesday.",
+    "direction": "sent",
+    "date": "2024-03-10T09:00:00Z"
+  },
+  {
+    "Id": 10,
+    "parentContactId": 3,
+    "type": "email",
+    "message": "Sophia has been working hard on her reading skills. I've noticed significant improvement in her comprehension over the past month.",
+    "direction": "sent",
+    "date": "2024-03-08T14:15:00Z"
+  }
+]

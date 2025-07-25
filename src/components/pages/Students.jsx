@@ -75,10 +75,16 @@ const Students = () => {
     }
   };
 
-  const handleViewStudent = (student) => {
+const handleViewStudent = (student) => {
     // Navigate to student detail view (would be implemented with router)
     console.log("View student:", student);
     toast.info(`Viewing ${student.firstName} ${student.lastName}'s profile`);
+  };
+
+  const handleContactParent = (student) => {
+    // Navigate to parent contact page with student ID
+    window.location.href = `/parent-contact?studentId=${student.Id}`;
+    toast.info(`Managing parent contact for ${student.firstName} ${student.lastName}`);
   };
 
   const handleFormSubmit = async (formData) => {
@@ -110,7 +116,7 @@ const Students = () => {
     setEditingStudent(null);
   };
 
-  if (loading) {
+if (loading) {
     return <Loading type="table" />;
   }
 
@@ -134,7 +140,6 @@ const Students = () => {
       </div>
     );
   }
-
   return (
     <div className="p-6 space-y-6">
       {/* Page Header */}

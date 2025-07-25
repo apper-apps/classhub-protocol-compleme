@@ -1,24 +1,26 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import Layout from "@/components/pages/Layout";
-import Dashboard from "@/components/pages/Dashboard";
-import Students from "@/components/pages/Students";
-import Grades from "@/components/pages/Grades";
-import Attendance from "@/components/pages/Attendance";
-import Assignments from "@/components/pages/Assignments";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import Layout from '@/components/pages/Layout';
+import Dashboard from '@/components/pages/Dashboard';
+import Students from '@/components/pages/Students';
+import Grades from '@/components/pages/Grades';
+import Attendance from '@/components/pages/Attendance';
+import Assignments from '@/components/pages/Assignments';
+import ParentContact from '@/components/pages/ParentContact';
 
 function App() {
   return (
     <Router>
       <div className="App">
-        <Routes>
+<Routes>
           <Route path="/" element={<Layout />}>
             <Route index element={<Dashboard />} />
             <Route path="students" element={<Students />} />
             <Route path="grades" element={<Grades />} />
             <Route path="attendance" element={<Attendance />} />
             <Route path="assignments" element={<Assignments />} />
+            <Route path="parent-contact" element={<ParentContact />} />
           </Route>
         </Routes>
         
