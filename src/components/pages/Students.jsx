@@ -1,16 +1,18 @@
-import React, { useState, useEffect } from "react";
-import Button from "@/components/atoms/Button";
-import SearchBar from "@/components/molecules/SearchBar";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import studentService from "@/services/api/studentService";
+import ApperIcon from "@/components/ApperIcon";
 import StudentTable from "@/components/organisms/StudentTable";
 import StudentForm from "@/components/organisms/StudentForm";
-import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
+import SearchBar from "@/components/molecules/SearchBar";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import studentService from "@/services/api/studentService";
-import { toast } from "react-toastify";
+import Loading from "@/components/ui/Loading";
 
 const Students = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [filteredStudents, setFilteredStudents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -146,13 +148,23 @@ if (loading) {
       </div>
     );
   }
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Students</h1>
-          <p className="text-gray-600">Manage your student roster</p>
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-gray-100"
+          >
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Students</h1>
+            <p className="text-gray-600">Manage your student roster</p>
+          </div>
         </div>
         <Button onClick={handleAddStudent} variant="primary">
           <ApperIcon name="UserPlus" size={20} className="mr-2" />

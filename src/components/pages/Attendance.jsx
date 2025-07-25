@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import attendanceService from "@/services/api/attendanceService";
+import studentService from "@/services/api/studentService";
+import ApperIcon from "@/components/ApperIcon";
 import AttendanceCalendar from "@/components/organisms/AttendanceCalendar";
-import Loading from "@/components/ui/Loading";
+import Button from "@/components/atoms/Button";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import studentService from "@/services/api/studentService";
-import attendanceService from "@/services/api/attendanceService";
-import { toast } from "react-toastify";
+import Loading from "@/components/ui/Loading";
 
 const Attendance = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -104,12 +108,22 @@ const Attendance = () => {
     );
   }
 
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
-      <div>
-        <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
-        <p className="text-gray-600">Track student attendance with the calendar view</p>
+      <div className="flex items-center space-x-3 mb-6">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-gray-100"
+        >
+          <ApperIcon name="ArrowLeft" size={20} />
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Attendance</h1>
+          <p className="text-gray-600">Track student attendance with the calendar view</p>
+        </div>
       </div>
 
       {/* Attendance Calendar */}

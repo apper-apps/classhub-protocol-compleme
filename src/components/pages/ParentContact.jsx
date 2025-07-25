@@ -1,6 +1,9 @@
 import React from "react";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import ApperIcon from "@/components/ApperIcon";
+import Students from "@/components/pages/Students";
 import ParentContactForm from "@/components/organisms/ParentContactForm";
+import Button from "@/components/atoms/Button";
 
 const ParentContact = () => {
   const [searchParams] = useSearchParams();
@@ -11,9 +14,24 @@ const ParentContact = () => {
     navigate("/students");
   };
 
-  if (!studentId) {
+if (!studentId) {
     return (
       <div className="p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleBack}
+            className="p-2 hover:bg-gray-100"
+          >
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Parent Contact</h1>
+            <p className="text-gray-600">Manage parent communications</p>
+          </div>
+        </div>
+        
         <div className="text-center">
           <h2 className="text-xl font-semibold text-gray-900 mb-2">
             No Student Selected
@@ -21,18 +39,38 @@ const ParentContact = () => {
           <p className="text-gray-600 mb-4">
             Please select a student to manage parent contacts.
           </p>
-          <button
+          <Button
             onClick={handleBack}
-            className="text-primary hover:underline"
+            variant="primary"
           >
+            <ApperIcon name="ArrowLeft" size={16} className="mr-2" />
             Return to Students
-          </button>
+          </Button>
         </div>
       </div>
     );
   }
 
-  return <ParentContactForm studentId={parseInt(studentId)} onBack={handleBack} />;
+return (
+    <div className="p-6">
+      <div className="flex items-center space-x-3 mb-6">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleBack}
+          className="p-2 hover:bg-gray-100"
+        >
+          <ApperIcon name="ArrowLeft" size={20} />
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Parent Contact</h1>
+          <p className="text-gray-600">Manage parent communications</p>
+        </div>
+      </div>
+      
+      <ParentContactForm studentId={parseInt(studentId)} onBack={handleBack} />
+    </div>
+  );
 };
 
 export default ParentContact;

@@ -3,11 +3,22 @@ import Button from "@/components/atoms/Button";
 import SearchBar from "@/components/molecules/SearchBar";
 import ApperIcon from "@/components/ApperIcon";
 
-const Header = ({ onMenuClick, title, showSearch = false, searchValue, onSearchChange, onSearchClear, actionButton }) => {
+const Header = ({ onMenuClick, onBackClick, showBackButton = false, title, showSearch = false, searchValue, onSearchChange, onSearchClear, actionButton }) => {
   return (
     <header className="bg-surface border-b border-gray-200 px-4 lg:px-6 py-4">
       <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
+<div className="flex items-center space-x-4">
+          {showBackButton && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={onBackClick}
+              className="p-2 hover:bg-gray-100"
+            >
+              <ApperIcon name="ArrowLeft" size={20} />
+            </Button>
+          )}
+          
           <Button
             variant="ghost"
             size="sm"

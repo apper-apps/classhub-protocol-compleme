@@ -17,11 +17,12 @@ const Layout = () => {
         
         {/* Main Content */}
         <div className="flex-1 flex flex-col overflow-hidden">
-          <Header 
+<Header 
             onMenuClick={() => setSidebarOpen(true)}
+            onBackClick={() => window.location.href = '/'}
+            showBackButton={true}
             title="ClassHub"
           />
-          
           <main className="flex-1 overflow-y-auto">
             <Outlet />
           </main>

@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import assignmentService from "@/services/api/assignmentService";
+import studentService from "@/services/api/studentService";
+import gradeService from "@/services/api/gradeService";
+import ApperIcon from "@/components/ApperIcon";
 import Select from "@/components/atoms/Select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
 import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
 import GradePill from "@/components/molecules/GradePill";
-import Loading from "@/components/ui/Loading";
 import Error from "@/components/ui/Error";
 import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
-import studentService from "@/services/api/studentService";
-import assignmentService from "@/services/api/assignmentService";
-import gradeService from "@/services/api/gradeService";
-import { toast } from "react-toastify";
+import Loading from "@/components/ui/Loading";
 
 const Grades = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [assignments, setAssignments] = useState([]);
   const [grades, setGrades] = useState([]);
@@ -21,7 +23,6 @@ const Grades = () => {
   const [error, setError] = useState("");
   const [selectedAssignment, setSelectedAssignment] = useState("");
   const [gradeInputs, setGradeInputs] = useState({});
-
   const loadGradesData = async () => {
     try {
       setLoading(true);
@@ -155,13 +156,23 @@ const Grades = () => {
 
   const selectedAssignmentData = assignments.find(a => a.Id === parseInt(selectedAssignment));
 
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Grades</h1>
-          <p className="text-gray-600">Enter and manage student grades</p>
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-gray-100"
+          >
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Grades</h1>
+            <p className="text-gray-600">Enter and manage student grades</p>
+          </div>
         </div>
       </div>
 

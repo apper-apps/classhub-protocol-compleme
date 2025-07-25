@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/atoms/Card";
-import Button from "@/components/atoms/Button";
-import Input from "@/components/atoms/Input";
-import Select from "@/components/atoms/Select";
-import Badge from "@/components/atoms/Badge";
-import SearchBar from "@/components/molecules/SearchBar";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import Empty from "@/components/ui/Empty";
-import ApperIcon from "@/components/ApperIcon";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { addDays, format, isAfter, isBefore } from "date-fns";
+import { toast } from "react-toastify";
 import assignmentService from "@/services/api/assignmentService";
 import gradeService from "@/services/api/gradeService";
-import { format, isAfter, isBefore, addDays } from "date-fns";
-import { toast } from "react-toastify";
+import ApperIcon from "@/components/ApperIcon";
+import Badge from "@/components/atoms/Badge";
+import Select from "@/components/atoms/Select";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/atoms/Card";
+import Input from "@/components/atoms/Input";
+import Button from "@/components/atoms/Button";
+import SearchBar from "@/components/molecules/SearchBar";
+import Error from "@/components/ui/Error";
+import Empty from "@/components/ui/Empty";
+import Loading from "@/components/ui/Loading";
 
 const Assignments = () => {
+  const navigate = useNavigate();
   const [assignments, setAssignments] = useState([]);
   const [grades, setGrades] = useState([]);
   const [filteredAssignments, setFilteredAssignments] = useState([]);
@@ -221,8 +223,25 @@ const Assignments = () => {
   }
 
   if (showForm) {
-    return (
+return (
       <div className="p-6">
+        <div className="flex items-center space-x-3 mb-6">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleFormCancel}
+            className="p-2 hover:bg-gray-100"
+          >
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {editingAssignment ? "Edit Assignment" : "Create New Assignment"}
+            </h1>
+            <p className="text-gray-600">Assignment details and settings</p>
+          </div>
+        </div>
+        
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
             <CardTitle className="flex items-center">
@@ -321,13 +340,23 @@ const Assignments = () => {
     );
   }
 
-  return (
+return (
     <div className="p-6 space-y-6">
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Assignments</h1>
-          <p className="text-gray-600">Create and manage class assignments</p>
+        <div className="flex items-center space-x-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate('/')}
+            className="p-2 hover:bg-gray-100"
+          >
+            <ApperIcon name="ArrowLeft" size={20} />
+          </Button>
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Assignments</h1>
+            <p className="text-gray-600">Create and manage class assignments</p>
+          </div>
         </div>
         <Button onClick={handleAddAssignment} variant="primary">
           <ApperIcon name="Plus" size={20} className="mr-2" />

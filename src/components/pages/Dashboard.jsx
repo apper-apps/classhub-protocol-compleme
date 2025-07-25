@@ -1,14 +1,21 @@
-import React, { useState, useEffect } from "react";
-import StatCard from "@/components/molecules/StatCard";
-import RecentActivity from "@/components/organisms/RecentActivity";
-import Loading from "@/components/ui/Loading";
-import Error from "@/components/ui/Error";
-import studentService from "@/services/api/studentService";
-import attendanceService from "@/services/api/attendanceService";
-import gradeService from "@/services/api/gradeService";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import assignmentService from "@/services/api/assignmentService";
+import attendanceService from "@/services/api/attendanceService";
+import studentService from "@/services/api/studentService";
+import gradeService from "@/services/api/gradeService";
+import ApperIcon from "@/components/ApperIcon";
+import Attendance from "@/components/pages/Attendance";
+import Assignments from "@/components/pages/Assignments";
+import Grades from "@/components/pages/Grades";
+import RecentActivity from "@/components/organisms/RecentActivity";
+import Button from "@/components/atoms/Button";
+import StatCard from "@/components/molecules/StatCard";
+import Error from "@/components/ui/Error";
+import Loading from "@/components/ui/Loading";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [students, setStudents] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [grades, setGrades] = useState([]);
@@ -137,8 +144,24 @@ const Dashboard = () => {
 
   const stats = calculateStats();
 
-  return (
+return (
     <div className="p-6 space-y-6">
+      {/* Page Header with Back Button */}
+      <div className="flex items-center space-x-3 mb-6">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => navigate('/')}
+          className="p-2 hover:bg-gray-100"
+        >
+          <ApperIcon name="ArrowLeft" size={20} />
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <p className="text-gray-600">Overview of your classroom</p>
+        </div>
+      </div>
+
       {/* Welcome Section */}
       <div className="bg-gradient-primary text-white rounded-lg p-6">
         <h1 className="text-2xl font-bold mb-2">Welcome back, Teacher!</h1>
