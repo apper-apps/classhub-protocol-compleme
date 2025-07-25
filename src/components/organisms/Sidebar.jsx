@@ -6,7 +6,7 @@ import { cn } from "@/utils/cn";
 const Sidebar = ({ isOpen, onClose }) => {
   const location = useLocation();
 
-  const menuItems = [
+const menuItems = [
     { 
       path: "/", 
       label: "Dashboard", 
@@ -16,6 +16,11 @@ const Sidebar = ({ isOpen, onClose }) => {
       path: "/students", 
       label: "Students", 
       icon: "Users" 
+    },
+    { 
+      path: "/students", 
+      label: "People", 
+      icon: "Users2" 
     },
     { 
       path: "/grades", 
