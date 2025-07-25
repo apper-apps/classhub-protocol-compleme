@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import { setUser, clearUser } from '@/store/userSlice';
 import Layout from '@/components/pages/Layout';
+import People from '@/components/pages/People';
 import Dashboard from '@/components/pages/Dashboard';
 import Students from '@/components/pages/Students';
 import StudentPerformance from '@/components/pages/StudentPerformance';
@@ -149,9 +150,10 @@ function AppContent() {
           <Route path="students" element={<Students />} />
           <Route path="students/:id/performance" element={<StudentPerformance />} />
           <Route path="grades" element={<Grades />} />
-          <Route path="attendance" element={<Attendance />} />
+<Route path="attendance" element={<Attendance />} />
           <Route path="assignments" element={<Assignments />} />
           <Route path="parent-contact" element={<ParentContact />} />
+          <Route path="people" element={<People />} />
         </Route>
       </Routes>
       
