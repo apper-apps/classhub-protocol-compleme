@@ -133,16 +133,14 @@ const StudentForm = ({ student, onSubmit, onCancel, isLoading = false }) => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Select
+<Select
               label="Grade Level"
               value={formData.gradeLevel}
               onChange={(e) => handleChange("gradeLevel", e.target.value)}
               error={errors.gradeLevel}
             >
               <option value="">Select grade level</option>
-              {gradeLevels.map(grade => (
-                <option key={grade} value={grade}>{grade}</option>
-              ))}
+              <option key="10th Grade" value="10th Grade">10th Grade</option>
             </Select>
             
             <Input
