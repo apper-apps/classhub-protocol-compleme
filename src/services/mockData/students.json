@@ -1,0 +1,112 @@
+[
+  {
+    "Id": 1,
+    "firstName": "Emma",
+    "lastName": "Johnson",
+    "email": "emma.johnson@email.com",
+    "phone": "(555) 123-4567",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-15T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 2,
+    "firstName": "Liam",
+    "lastName": "Smith",
+    "email": "liam.smith@email.com",
+    "phone": "(555) 234-5678",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-15T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 3,
+    "firstName": "Olivia",
+    "lastName": "Brown",
+    "email": "olivia.brown@email.com",
+    "phone": "(555) 345-6789",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-20T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 4,
+    "firstName": "Noah",
+    "lastName": "Davis",
+    "email": "noah.davis@email.com",
+    "phone": "(555) 456-7890",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-15T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 5,
+    "firstName": "Ava",
+    "lastName": "Wilson",
+    "email": "ava.wilson@email.com",
+    "phone": "(555) 567-8901",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-22T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 6,
+    "firstName": "Isabella",
+    "lastName": "Moore",
+    "email": "isabella.moore@email.com",
+    "phone": "(555) 678-9012",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-18T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 7,
+    "firstName": "Mason",
+    "lastName": "Taylor",
+    "email": "mason.taylor@email.com",
+    "phone": "(555) 789-0123",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-25T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 8,
+    "firstName": "Sophia",
+    "lastName": "Anderson",
+    "email": "sophia.anderson@email.com",
+    "phone": "(555) 890-1234",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-15T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  },
+  {
+    "Id": 9,
+    "firstName": "William",
+    "lastName": "Thomas",
+    "email": "william.thomas@email.com",
+    "phone": "(555) 901-2345",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-30T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "inactive"
+  },
+  {
+    "Id": 10,
+    "firstName": "Charlotte",
+    "lastName": "Jackson",
+    "email": "charlotte.jackson@email.com",
+    "phone": "(555) 012-3456",
+    "gradeLevel": "10th Grade",
+    "enrollmentDate": "2024-08-15T00:00:00.000Z",
+    "photoUrl": "",
+    "status": "active"
+  }
+]

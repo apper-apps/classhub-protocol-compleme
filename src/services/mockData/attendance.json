@@ -1,0 +1,135 @@
+[
+  {
+    "Id": 1,
+    "studentId": 1,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 2,
+    "studentId": 2,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 3,
+    "studentId": 3,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "tardy"
+  },
+  {
+    "Id": 4,
+    "studentId": 4,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 5,
+    "studentId": 5,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "absent"
+  },
+  {
+    "Id": 6,
+    "studentId": 1,
+    "courseId": 1,
+    "date": "2024-02-02T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 7,
+    "studentId": 2,
+    "courseId": 1,
+    "date": "2024-02-02T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 8,
+    "studentId": 3,
+    "courseId": 1,
+    "date": "2024-02-02T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 9,
+    "studentId": 4,
+    "courseId": 1,
+    "date": "2024-02-02T09:00:00.000Z",
+    "status": "excused"
+  },
+  {
+    "Id": 10,
+    "studentId": 5,
+    "courseId": 1,
+    "date": "2024-02-02T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 11,
+    "studentId": 6,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 12,
+    "studentId": 7,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 13,
+    "studentId": 8,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 14,
+    "studentId": 10,
+    "courseId": 1,
+    "date": "2024-02-01T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 15,
+    "studentId": 1,
+    "courseId": 1,
+    "date": "2024-02-05T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 16,
+    "studentId": 2,
+    "courseId": 1,
+    "date": "2024-02-05T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 17,
+    "studentId": 3,
+    "courseId": 1,
+    "date": "2024-02-05T09:00:00.000Z",
+    "status": "absent"
+  },
+  {
+    "Id": 18,
+    "studentId": 4,
+    "courseId": 1,
+    "date": "2024-02-05T09:00:00.000Z",
+    "status": "present"
+  },
+  {
+    "Id": 19,
+    "studentId": 5,
+    "courseId": 1,
+    "date": "2024-02-05T09:00:00.000Z",
+    "status": "tardy"
+  }
+]

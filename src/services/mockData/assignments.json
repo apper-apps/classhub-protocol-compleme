@@ -1,0 +1,74 @@
+[
+  {
+    "Id": 1,
+    "courseId": 1,
+    "title": "Romeo and Juliet Essay",
+    "category": "homework",
+    "points": 100,
+    "dueDate": "2024-02-15T23:59:00.000Z",
+    "description": "Write a 5-paragraph essay analyzing the themes in Romeo and Juliet"
+  },
+  {
+    "Id": 2,
+    "courseId": 1,
+    "title": "Poetry Analysis Quiz",
+    "category": "quiz",
+    "points": 50,
+    "dueDate": "2024-02-08T14:30:00.000Z",
+    "description": "Quiz covering poetry analysis techniques and literary devices"
+  },
+  {
+    "Id": 3,
+    "courseId": 2,
+    "title": "Quadratic Equations Test",
+    "category": "test",
+    "points": 100,
+    "dueDate": "2024-02-20T09:00:00.000Z",
+    "description": "Comprehensive test on solving quadratic equations and graphing parabolas"
+  },
+  {
+    "Id": 4,
+    "courseId": 2,
+    "title": "Math Homework - Chapter 8",
+    "category": "homework",
+    "points": 25,
+    "dueDate": "2024-02-12T08:00:00.000Z",
+    "description": "Complete exercises 1-20 from Chapter 8"
+  },
+  {
+    "Id": 5,
+    "courseId": 3,
+    "title": "Lab Report - Chemical Reactions",
+    "category": "project",
+    "points": 75,
+    "dueDate": "2024-02-18T17:00:00.000Z",
+    "description": "Write a detailed lab report on the chemical reactions experiment"
+  },
+  {
+    "Id": 6,
+    "courseId": 4,
+    "title": "World War I Timeline",
+    "category": "project",
+    "points": 80,
+    "dueDate": "2024-02-25T23:59:00.000Z",
+    "description": "Create a detailed timeline of major World War I events"
+  },
+  {
+    "Id": 7,
+    "courseId": 5,
+    "title": "Spanish Vocabulary Quiz",
+    "category": "quiz",
+    "points": 30,
+    "dueDate": "2024-02-10T11:00:00.000Z",
+    "description": "Quiz on Chapter 3 vocabulary words"
+  },
+  {
+    "Id": 8,
+    "courseId": 1,
+    "title": "Shakespeare Midterm",
+    "category": "test",
+    "points": 150,
+    "dueDate": "2024-03-01T10:00:00.000Z",
+    "description": "Midterm exam covering all Shakespeare works studied this semester"
+  }
+]

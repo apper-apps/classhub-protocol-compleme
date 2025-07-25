@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 1,
+    "name": "English Literature",
+    "code": "ENG101",
+    "credits": 3,
+    "term": "Fall 2024"
+  },
+  {
+    "Id": 2,
+    "name": "Algebra II",
+    "code": "MATH201",
+    "credits": 4,
+    "term": "Fall 2024"
+  },
+  {
+    "Id": 3,
+    "name": "Chemistry",
+    "code": "CHEM101",
+    "credits": 4,
+    "term": "Fall 2024"
+  },
+  {
+    "Id": 4,
+    "name": "World History",
+    "code": "HIST101",
+    "credits": 3,
+    "term": "Fall 2024"
+  },
+  {
+    "Id": 5,
+    "name": "Spanish I",
+    "code": "SPAN101",
+    "credits": 3,
+    "term": "Fall 2024"
+  }
+]
